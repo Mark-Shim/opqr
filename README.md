@@ -1,535 +1,845 @@
 <!DOCTYPE html>
-<html lang="ko" class="scroll-smooth">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STU Investment Partners LLC</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>근로계약서 작성 도우미 ✍️</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     <style>
-        body {
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap'); /* 제목용 폰트 */
+        :root {
+            /* CSS 변수 기본값 설정 */
+            --accent-color: #2563EB; /* 기본 파란색 */
+            --accent-color-light: #BFDBFE;
+            --accent-color-start: #3B82F6;
+            --accent-color-end: #2563EB;
+            --header-bg-image: none; /* 기본 이미지 없음 */
+            --header-bg-position: center center;
+            --header-bg-size: 40% auto;
+            --header-bg-opacity: 0.15;
+            --header-mix-blend-mode: soft-light;
+        }
+        * {
             font-family: 'Noto Sans KR', sans-serif;
-            background-color: #F8F9FA;
-            color: #212529;
         }
-        .hero-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://placehold.co/1920x1080/2D3748/FFFFFF?text=Global+Business');
-            background-size: cover;
-            background-position: center;
+        .material-section {
+            break-inside: avoid;
+            page-break-inside: avoid;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: #ffffff; /* 섹션 배경색 */
+            border-radius: 0.75rem; /* 둥근 모서리 */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* 은은한 그림자 */
         }
-        .nav-link {
-            transition: color 0.3s;
+        .input-group {
+            margin-bottom: 1rem;
         }
-        .nav-link:hover {
-            color: #3B82F6;
+        .section-divider {
+            border-top: 2px solid #e5e7eb;
+            margin: 3rem 0; /* 간격 확대 */
         }
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background-color: #3B82F6;
-            margin: 16px auto 0;
-            border-radius: 2px;
-        }
-        .team-card {
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .team-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-        }
-        .modal-overlay {
-            transition: opacity 0.3s ease-in-out;
-        }
-        .modal-content {
-            transition: transform 0.3s ease-in-out;
-        }
-        .portfolio-btn.active {
-            background-color: #3B82F6;
+        .gradient-header-bg {
+            /* 양식명에 따른 테마 색상 그라디언트 (기본: blue) */
+            background: linear-gradient(135deg, var(--accent-color-start) 0%, var(--accent-color-end) 100%);
+            padding: 2.5rem; /* 패딩 증가 */
+            border-radius: 1rem; /* 더 둥근 모서리 */
             color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2); /* 텍스트 그림자 */
+            position: relative; /* ::before 가상 요소의 기준점 */
+            overflow: hidden; /* 배경 이미지가 박스 밖으로 나가지 않도록 */
+            /* 인쇄 시에도 색상 유지를 위해 */
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
         }
-        .portfolio-item {
-            transition: transform 0.3s, opacity 0.3s;
+        /* 헤더 배경 이미지 기본 스타일 (가상 요소) */
+        .gradient-header-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: var(--header-bg-image); /* JS에서 설정된 이미지 */
+            background-repeat: no-repeat;
+            background-position: var(--header-bg-position); /* JS에서 설정된 위치 */
+            background-size: var(--header-bg-size); /* JS에서 설정된 크기 */
+            opacity: var(--header-bg-opacity); /* JS에서 설정된 투명도 */
+            z-index: 1; /* 그라디언트 위에 오도록 */
+            mix-blend-mode: var(--header-mix-blend-mode); /* JS에서 설정된 블렌딩 모드 */
+            /* 인쇄 시에도 색상 유지를 위해 */
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
         }
-        .tab-btn.active {
-            border-bottom-color: #3B82F6;
-            color: #3B82F6;
-            font-weight: 700;
+        .gradient-header-bg h1, .gradient-header-bg p {
+            position: relative; /* 텍스트가 이미지 위에 오도록 */
+            z-index: 2;
         }
+        .accent-border {
+            border-left: 5px solid var(--accent-color, #2563EB); /* 테마 색상 경계선 */
+            padding-left: 1rem;
+        }
+        /* H2 및 H3에 동일하게 적용될 섹션 제목 스타일 */
+        .section-heading, .document-output h2, .document-output h3 {
+            font-family: 'Playfair Display', serif !important; /* Playfair Display 폰트 강제 적용 */
+            font-weight: 700 !important; /* 굵게 강제 적용 */
+            color: #1F2937 !important; /* 진한 회색 강제 적용 */
+            display: flex; /* 아이콘과 텍스트 정렬 */
+            align-items: center;
+        }
+        .section-heading { /* input form의 h3과 output h2에 적용 */
+            border-bottom: 3px solid var(--accent-color-light); /* 테마 색상으로 밑줄 */
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .section-heading i {
+            margin-right: 0.75rem;
+            color: var(--accent-color);
+            -webkit-print-color-adjust: exact; /* 인쇄 시 색상 유지 */
+            print-color-adjust: exact;
+        }
+        /* PDF 생성 기능 관련 CSS */
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body {
+                -webkit-print-color-adjust: exact; /* Chrome, Safari */
+                print-color-adjust: exact; /* 표준 */
+                font-size: 10pt; /* 인쇄 시 글꼴 크기 약간 축소 (근로계약서용) */
+                line-height: 1.5; /* 인쇄 시 줄간격 (근로계약서용) */
+                color: #000000; /* 검은색 텍스트 */
+                background-color: transparent !important; /* 배경색 투명하게 */
+            }
+            .container {
+                max-width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+            .shadow-lg {
+                box-shadow: none !important; /* 전체 그림자 제거 */
+            }
+            .document-output {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif !important; /* 인쇄 시 한국어 문서 표준 폰트 */
+            }
+            .document-output h1, .document-output h2, .document-output h3, .document-output h4 {
+                font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif !important; /* 제목도 동일 폰트 */
+                 color: #000000 !important;
+            }
+            /* material-section의 외곽선과 그림자를 인쇄 시에도 유지 */
+            .material-section {
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+                padding: 1rem !important;
+                margin-bottom: 1rem !important;
+                background-color: #ffffff !important;
+                border-radius: 0 !important; /* 인쇄시에는 각진 형태로 */
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .section-heading { /* 인쇄 시 밑줄 및 마진 재조정 */
+                border-bottom: 1px solid #666 !important; /* 인쇄 시 밑줄 얇게 */
+                padding-bottom: 0.25rem !important;
+                margin-bottom: 0.75rem !important;
+                 color: #000000 !important;
+            }
+             .section-heading i {
+                color: var(--accent-color) !important; /* 아이콘 색상 유지 */
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            /* 그라디언트 헤더 및 색상 요소의 색상 유지 */
+            .gradient-header-bg {
+                background: linear-gradient(135deg, var(--accent-color-start) 0%, var(--accent-color-end) 100%) !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color: white !important;
+                padding: 1rem !important;
+                border-radius: 0 !important;
+                text-shadow: none !important;
+                border: none !important;
+                 text-align: center !important;
+            }
+            .gradient-header-bg::before { /* 인쇄 시 배경 이미지도 유지 */
+                background-image: var(--header-bg-image) !important;
+                background-position: var(--header-bg-position) !important;
+                background-size: var(--header-bg-size) !important;
+                opacity: 0.03 !important; /* 인쇄 시 더 희미하게 */
+                mix-blend-mode: normal !important; /* 인쇄 시 블렌딩 모드 제거하여 호환성 개선 */
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+             .gradient-header-bg h1 {
+                font-size: 20pt !important;
+                font-weight: bold !important;
+                color: white !important;
+            }
+            .accent-border {
+                border-left-color: var(--accent-color) !important;
+                background-color: transparent !important; /* 인쇄 시 배경색 제거 */
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .table-cell {
+                border: 1px solid #ccc;
+                padding: 0.5rem;
+            }
+            p, li, span, strong, div { /* 기본 텍스트 요소들 */
+                color: #000000 !important;
+            }
+        }
+        .print-only { display: none; } /* 기본적으로 숨김 */
+        @page {
+            size: A4;
+            margin: 2cm; /* A4 용지 여백 조정 */
+        }
+        /* 입력 필드 디자인 개선 */
+        label {
+            font-weight: 500;
+        }
+        input[type="text"], input[type="date"], input[type="time"], input[type="number"], select, textarea {
+            border-color: #D1D5DB; /* 기본 테두리 색상 */
+            transition: all 0.15s ease-in-out;
+        }
+        input[type="text"]:focus, input[type="date"]:focus, input[type="time"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px var(--accent-color-light);
+        }
+        /* 테이블 레이아웃을 위한 스타일 (미리보기용) */
+        .preview-table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        .preview-table th, .preview-table td { border: 1px solid #e2e8f0; padding: 0.75rem; text-align: left; vertical-align: top;}
+        .preview-table th { background-color: #f7fafc; font-weight: 600; }
+        .preview-table p { margin-bottom: 0.25rem; }
+        .preview-table strong { font-weight: 500; }
+        /* Fade-in animation for preview */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
     </style>
 </head>
-<body class="antialiased">
-
-    <header id="header" class="bg-white/80 backdrop-blur-md shadow-md fixed w-full top-0 z-50 transition-all duration-300">
-        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <a href="#home" class="text-xl font-bold text-gray-800">STU Investment Partners</a>
-            <nav class="hidden md:flex space-x-8">
-                <a href="#about" class="nav-link text-gray-600">회사 소개</a>
-                <a href="#team" class="nav-link text-gray-600">팀</a>
-                <a href="#investment" class="nav-link text-gray-600">투자 철학</a>
-                <a href="#portfolio" class="nav-link text-gray-600">포트폴리오</a>
-                <a href="#news" class="nav-link text-gray-600">뉴스 & 인사이트</a>
-                <a href="#contact" class="nav-link text-gray-600">연락처</a>
-            </nav>
-            <div class="md:hidden">
-                <button id="mobile-menu-button" class="text-gray-800 focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                </button>
-            </div>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <div class="text-center mb-8 no-print">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">
+                <i class="fas fa-file-signature text-blue-600 mr-3"></i> 근로계약서 작성 도우미
+            </h1>
+            <p class="text-gray-600 text-lg">아래 정보를 입력하시면 표준 근로계약서가 자동 생성됩니다.</p>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden">
-            <a href="#about" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">회사 소개</a>
-            <a href="#team" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">팀</a>
-            <a href="#investment" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">투자 철학</a>
-            <a href="#portfolio" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">포트폴리오</a>
-            <a href="#news" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">뉴스 & 인사이트</a>
-            <a href="#contact" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">연락처</a>
-        </div>
-    </header>
 
-    <main>
-        <section id="home" class="hero-bg h-screen flex items-center justify-center text-white text-center px-4">
-            <div>
-                <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight animate-fade-in-down">미래를 조각하는 투자, <br class="md:hidden"/>STU Investment Partners가 함께합니다.</h1>
-                <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8 animate-fade-in-up">수십 년의 경험을 갖춘 전문가 팀이 귀사의 잠재력을 발굴하고, 글로벌 성공을 위한 맞춤형 지원을 제공합니다.</p>
-                <div class="space-x-4">
-                    <a href="#investment" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition duration-300">STU의 투자 이야기</a>
-                    <a href="#team" class="bg-transparent border-2 border-white hover:bg-white hover:text-blue-600 text-white font-bold py-3 px-8 rounded-full transition duration-300">전문가 팀 살펴보기</a>
-                </div>
-            </div>
-        </section>
-
-        <section id="about" class="py-20 bg-white">
-            <div class="container mx-auto px-6 text-center">
-                <h2 class="section-title text-3xl font-bold text-gray-800 mb-12">Why STU?</h2>
-                <p class="max-w-3xl mx-auto text-gray-600 mb-16">
-                    STU Investment Partners LLC는 단순한 자금 공급자를 넘어, 기업가와 함께 호흡하며 지속 가능한 성장을 만들어가는 전략적 파트너입니다. 우리의 깊이 있는 통찰력과 광범위한 네트워크는 귀사의 성공적인 미래를 앞당길 것입니다.
-                </p>
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
-                    <div class="p-8">
-                        <div class="text-4xl text-blue-600 mb-4">👑</div>
-                        <h3 class="text-xl font-bold mb-2">노련한 리더십</h3>
-                        <p class="text-gray-600">김경배 CEO와 정성익 CIO의 도합 60년 경력이 이끄는 깊이 있는 전문성.</p>
-                    </div>
-                    <div class="p-8">
-                        <div class="text-4xl text-blue-600 mb-4">🤝</div>
-                        <h3 class="text-xl font-bold mb-2">산업과 투자의 융합</h3>
-                        <p class="text-gray-600">석동호 본부장의 창업, 액셀러레이팅 경험과 투자 전문성의 결합.</p>
-                    </div>
-                    <div class="p-8">
-                        <div class="text-4xl text-blue-600 mb-4">🌍</div>
-                        <h3 class="text-xl font-bold mb-2">글로벌 네트워크</h3>
-                        <p class="text-gray-600">John Lee의 미국, 중동을 아우르는 글로벌 투자 및 자금 조달 역량.</p>
-                    </div>
-                    <div class="p-8">
-                        <div class="text-4xl text-blue-600 mb-4">📈</div>
-                        <h3 class="text-xl font-bold mb-2">맞춤형 성장 지원</h3>
-                        <p class="text-gray-600">기업의 단계와 필요에 맞춘 실질적인 가치 창출을 지원합니다.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="team" class="py-20">
-            <div class="container mx-auto px-6 text-center">
-                <h2 class="section-title text-3xl font-bold text-gray-800 mb-6">우리의 전문가들</h2>
-                <p class="max-w-3xl mx-auto text-gray-600 mb-16">
-                    STU Investment Partners의 가장 큰 자산은 사람입니다. 각 분야에서 최고의 전문성과 풍부한 경험을 갖춘 우리 팀은 기업의 성공적인 성장을 위한 든든한 지원군입니다.
-                </p>
-                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
-                    <div class="team-card bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer" onclick="openModal('kb-kim')">
-                        <img src="https://placehold.co/400x400/E2E8F0/4A5568?text=K.B.Kim" alt="김경배 CEO" class="w-full h-64 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold">김경배</h3>
-                            <p class="text-blue-600">CEO & Managing Partner</p>
-                            <p class="mt-2 text-sm text-gray-600">"30년 벤처투자 외길, 시장을 꿰뚫는 통찰력."</p>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white rounded-lg shadow-lg p-6 no-print">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                    <i class="fas fa-edit text-blue-500 mr-2"></i>
+                    정보 입력
+                </h2>
+                <form id="documentForm" class="space-y-6">
+                    <div class="border-b border-gray-200 pb-6">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4 section-heading">
+                            <i class="fas fa-file-alt"></i> 계약 기본 정보
+                        </h3>
+                        <div class="input-group">
+                            <label class="block text-sm font-medium text-gray-700 mb-1" for="documentTitle">계약서 제목*</label>
+                            <input type="text" id="documentTitle" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 표준 근로계약서">
+                        </div>
+                        <div class="input-group">
+                            <label class="block text-sm font-medium text-gray-700 mb-1" for="contractDate">계약 체결일*</label>
+                            <input type="date" id="contractDate" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2">
                         </div>
                     </div>
-                    <div class="team-card bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer" onclick="openModal('si-jung')">
-                        <img src="https://placehold.co/400x400/E2E8F0/4A5568?text=S.I.Jung" alt="정성익 CIO" class="w-full h-64 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold">정성익</h3>
-                            <p class="text-blue-600">CIO & Partner</p>
-                            <p class="mt-2 text-sm text-gray-600">"산업은행 30년, 기업금융과 투자 분석의 베테랑."</p>
+
+                    <div class="border-b border-gray-200 pb-6">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4 section-heading">
+                            <i class="fas fa-building"></i> 사업주 정보 (갑)
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="input-group">
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="employerCompanyName">회사명*</label>
+                                <input type="text" id="employerCompanyName" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: (주)미래컴퍼니">
+                            </div>
+                            <div class="input-group">
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="employerRepresentativeName">대표자명*</label>
+                                <input type="text" id="employerRepresentativeName" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 홍길동">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label class="block text-sm font-medium text-gray-700 mb-1" for="employerBusinessNumber">사업자등록번호</label>
+                            <input type="text" id="employerBusinessNumber" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 123-45-67890">
+                        </div>
+                        <div class="input-group">
+                            <label class="block text-sm font-medium text-gray-700 mb-1" for="employerCompanyAddress">회사 주소*</label>
+                            <input type="text" id="employerCompanyAddress" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 서울특별시 강남구 테헤란로 123, 4층">
+                        </div>
+                        <div class="input-group">
+                            <label class="block text-sm font-medium text-gray-700 mb-1" for="employerCompanyContact">회사 연락처</label>
+                            <input type="text" id="employerCompanyContact" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 02-1234-5678">
                         </div>
                     </div>
-                    <div class="team-card bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer" onclick="openModal('dh-seok')">
-                        <img src="https://placehold.co/400x400/E2E8F0/4A5568?text=D.H.Seok" alt="석동호 투자본부장" class="w-full h-64 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold">석동호</h3>
-                            <p class="text-blue-600">전무, 투자본부장</p>
-                            <p class="mt-2 text-sm text-gray-600">"창업부터 투자까지, 산업 현장과 자본 시장의 연결."</p>
+
+                    <div class="border-b border-gray-200 pb-6">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4 section-heading">
+                            <i class="fas fa-user"></i> 근로자 정보 (을)
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="input-group">
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="employeeName">성명*</label>
+                                <input type="text" id="employeeName" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 김근로">
+                            </div>
+                            <div class="input-group">
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="employeeBirthDate">생년월일*</label>
+                                <input type="date" id="employeeBirthDate" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label class="block text-sm font-medium text-gray-700 mb-1" for="employeeContact">연락처*</label>
+                            <input type="text" id="employeeContact" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 010-9876-5432">
+                        </div>
+                        <div class="input-group">
+                            <label class="block text-sm font-medium text-gray-700 mb-1" for="employeeAddress">주소*</label>
+                            <input type="text" id="employeeAddress" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 경기도 성남시 분당구 판교역로 456">
                         </div>
                     </div>
-                    <div class="team-card bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer" onclick="openModal('j-lee')">
-                        <img src="https://placehold.co/400x400/E2E8F0/4A5568?text=J.Lee" alt="John Lee 글로벌 투자 담당" class="w-full h-64 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold">John Lee</h3>
-                            <p class="text-blue-600">이사, 글로벌 투자/파이낸싱</p>
-                            <p class="mt-2 text-sm text-gray-600">"국경을 넘나드는 파이낸싱, 글로벌 성공의 키."</p>
+
+                    <div class="border-b border-gray-200 pb-6">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4 section-heading">
+                            <i class="fas fa-briefcase"></i> 근로 조건
+                        </h3>
+                        <div class="input-group">
+                            <label class="block text-sm font-medium text-gray-700 mb-1" for="contractType">계약 구분*</label>
+                            <select id="contractType" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2">
+                                <option value="기간의 정함이 없는 근로계약">기간의 정함이 없는 근로계약</option>
+                                <option value="기간제 근로계약">기간제 근로계약</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="input-group">
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="contractStartDate">근로 시작일*</label>
+                                <input type="date" id="contractStartDate" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2">
+                            </div>
+                            <div class="input-group">
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="contractEndDate">근로 종료일 (기간제인 경우)</label>
+                                <input type="date" id="contractEndDate" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2">
+                            </div>
+                        </div>
+                         <div class="input-group">
+                            <label class="block text-sm font-medium text-gray-700 mb-1" for="workplace">근무 장소*</label>
+                            <input type="text" id="workplace" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 본사 사무실 (서울특별시 강남구 테헤란로 123)">
+                        </div>
+                        <div class="input-group">
+                            <label class="block text-sm font-medium text-gray-700 mb-1" for="jobDescription">업무 내용*</label>
+                            <textarea id="jobDescription" rows="3" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 소프트웨어 개발 및 유지보수, 마케팅 전략 수립 및 실행 등 구체적으로 기재"></textarea>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="investment" class="py-20 bg-white">
-            <div class="container mx-auto px-6">
-                <h2 class="section-title text-3xl font-bold text-gray-800 mb-16 text-center">우리의 투자 접근법</h2>
-                <div class="max-w-4xl mx-auto">
-                    <div class="border-b border-gray-200 mb-8">
-                        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                            <button class="tab-btn active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg" data-tab="philosophy">투자 철학</button>
-                            <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500" data-tab="focus">투자 분야</button>
-                            <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500" data-tab="value-add">가치 창출</button>
-                        </nav>
-                    </div>
-                    <div id="philosophy-content" class="tab-content">
-                        <ul class="space-y-6">
-                            <li class="flex items-start"><span class="text-blue-600 mr-4 mt-1">✔</span><div><h4 class="font-bold text-lg">사람 중심 (People-First)</h4><p class="text-gray-600">뛰어난 창업가와 팀의 역량에 최우선 가치를 둡니다.</p></div></li>
-                            <li class="flex items-start"><span class="text-blue-600 mr-4 mt-1">✔</span><div><h4 class="font-bold text-lg">기본에 충실 (Fundamentals-Driven)</h4><p class="text-gray-600">지속 가능한 비즈니스 모델과 명확한 시장 기회에 집중합니다.</p></div></li>
-                            <li class="flex items-start"><span class="text-blue-600 mr-4 mt-1">✔</span><div><h4 class="font-bold text-lg">장기적 관점 (Long-Term Horizon)</h4><p class="text-gray-600">단기적 성과보다는 장기적인 기업 가치 증대를 목표로 합니다.</p></div></li>
-                            <li class="flex items-start"><span class="text-blue-600 mr-4 mt-1">✔</span><div><h4 class="font-bold text-lg">적극적 지원 (Active Support)</h4><p class="text-gray-600">단순 자금 투자를 넘어 경영, 전략, 네트워크 등 다방면으로 지원합니다.</p></div></li>
-                            <li class="flex items-start"><span class="text-blue-600 mr-4 mt-1">✔</span><div><h4 class="font-bold text-lg">글로벌 지향 (Global Perspective)</h4><p class="text-gray-600">국내 시장을 넘어 글로벌 시장에서의 성공 가능성을 중요하게 평가합니다.</p></div></li>
-                        </ul>
-                    </div>
-                    <div id="focus-content" class="tab-content hidden">
-                        <p class="text-gray-600 mb-6">미래 성장 가능성이 높은 핵심 산업 분야의 혁신 기업을 발굴하여 집중적으로 투자합니다. </p>
-                        <div class="grid md:grid-cols-2 gap-x-8 gap-y-4">
-                            <span class="p-2 font-medium">🤖 AI & 머신러닝</span>
-                            <span class="p-2 font-medium">☁️ SaaS & 클라우드</span>
-                            <span class="p-2 font-medium">❤️ 바이오 & 헬스케어</span>
-                            <span class="p-2 font-medium">💳 핀테크</span>
-                            <span class="p-2 font-medium">🚗 모빌리티</span>
-                            <span class="p-2 font-medium">🔬 딥테크</span>
-                            <span class="p-2 font-medium">🌱 ESG & 임팩트</span>
-                            <span class="p-2 font-medium">🚀 성장 단계 (Growth Stage)</span>
+
+                    <div class="border-b border-gray-200 pb-6">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4 section-heading">
+                            <i class="fas fa-clock"></i> 근로시간 및 휴게
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="input-group">
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="workStartTime">시업 시간*</label>
+                                <input type="time" id="workStartTime" required value="09:00" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2">
+                            </div>
+                            <div class="input-group">
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="workEndTime">종업 시간*</label>
+                                <input type="time" id="workEndTime" required value="18:00" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2">
+                            </div>
+                             <div class="input-group">
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="breakTime">휴게 시간*</label>
+                                <input type="text" id="breakTime" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 12:00 ~ 13:00 (1시간)">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label class="block text-sm font-medium text-gray-700 mb-1" for="workDays">근무일*</label>
+                            <input type="text" id="workDays" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 매주 월요일부터 금요일까지 (주 5일)">
+                        </div>
+                        <div class="input-group">
+                            <label class="block text-sm font-medium text-gray-700 mb-1" for="weeklyHoliday">주휴일*</label>
+                            <input type="text" id="weeklyHoliday" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 매주 일요일">
                         </div>
                     </div>
-                    <div id="value-add-content" class="tab-content hidden">
-                        <p class="text-gray-600 mb-6">STU는 단순한 자금 투자를 넘어, 포트폴리오 기업의 성장을 위해 다각도로 지원하는 전략적 파트너입니다.</p>
-                        <ul class="list-disc list-inside space-y-3 text-gray-700">
-                            <li><span class="font-bold">전략적 자문:</span> 경영, 사업 개발, 시장 진입 전략 등</li>
-                            <li><span class="font-bold">네트워킹:</span> 산업 전문가, 잠재 고객/파트너, 후속 투자자 연결</li>
-                            <li><span class="font-bold">글로벌 확장 지원:</span> 해외 시장 정보 제공, 진출 전략 수립, 현지 파트너 연결</li>
-                            <li><span class="font-bold">인재 영입 지원:</span> 핵심 인력 확보를 위한 자문 및 추천</li>
-                            <li><span class="font-bold">후속 투자 유치 지원:</span> 성장을 위한 추가 자금 조달 지원</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <section id="portfolio" class="py-20">
-            <div class="container mx-auto px-6 text-center">
-                <h2 class="section-title text-3xl font-bold text-gray-800 mb-6">포트폴리오</h2>
-                <p class="max-w-3xl mx-auto text-gray-600 mb-12">
-                    STU Investment Partners가 함께 성장하고 있는 혁신적인 기업들을 소개합니다. 이들은 각자의 분야에서 미래를 만들어가고 있습니다.
-                </p>
-                <div class="flex justify-center flex-wrap gap-2 mb-12">
-                    <button class="portfolio-btn active py-2 px-4 rounded-full bg-gray-200 text-gray-700 transition" data-filter="all">All</button>
-                    <button class="portfolio-btn py-2 px-4 rounded-full bg-gray-200 text-gray-700 transition" data-filter="ai">AI</button>
-                    <button class="portfolio-btn py-2 px-4 rounded-full bg-gray-200 text-gray-700 transition" data-filter="healthcare">Healthcare</button>
-                    <button class="portfolio-btn py-2 px-4 rounded-full bg-gray-200 text-gray-700 transition" data-filter="saas">SaaS</button>
-                    <button class="portfolio-btn py-2 px-4 rounded-full bg-gray-200 text-gray-700 transition" data-filter="fintech">Fintech</button>
-                </div>
-                <div id="portfolio-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-                    <div class="portfolio-item p-4 bg-white rounded-lg flex items-center justify-center h-24 shadow-md" data-category="ai">
-                        <img src="https://placehold.co/150x60/cccccc/333333?text=AI+Innovation" alt="AI Innovation">
-                    </div>
-                    <div class="portfolio-item p-4 bg-white rounded-lg flex items-center justify-center h-24 shadow-md" data-category="healthcare">
-                        <img src="https://placehold.co/150x60/cccccc/333333?text=Medical" alt="Medical">
-                    </div>
-                    <div class="portfolio-item p-4 bg-white rounded-lg flex items-center justify-center h-24 shadow-md" data-category="saas">
-                        <img src="https://placehold.co/150x60/cccccc/333333?text=CloudF" alt="CloudF">
-                    </div>
-                    <div class="portfolio-item p-4 bg-white rounded-lg flex items-center justify-center h-24 shadow-md" data-category="fintech">
-                        <img src="https://placehold.co/150x60/cccccc/333333?text=Payment" alt="Payment">
-                    </div>
-                    <div class="portfolio-item p-4 bg-white rounded-lg flex items-center justify-center h-24 shadow-md" data-category="ai">
-                        <img src="https://placehold.co/150x60/cccccc/333333?text=DeepTech" alt="DeepTech">
-                    </div>
-                    <div class="portfolio-item p-4 bg-white rounded-lg flex items-center justify-center h-24 shadow-md" data-category="healthcare">
-                        <img src="https://placehold.co/150x60/cccccc/333333?text=Bio_Healthcare" alt="Bio_Healthcare">
-                    </div>
-                     <div class="portfolio-item p-4 bg-white rounded-lg flex items-center justify-center h-24 shadow-md" data-category="saas">
-                        <img src="https://placehold.co/150x60/cccccc/333333?text=WorkEasy" alt="WorkEasy">
-                    </div>
-                    <div class="portfolio-item p-4 bg-white rounded-lg flex items-center justify-center h-24 shadow-md" data-category="fintech">
-                        <img src="https://placehold.co/150x60/cccccc/333333?text=Blockchain" alt="Blcokchain">
-                    </div>
-                     <div class="portfolio-item p-4 bg-white rounded-lg flex items-center justify-center h-24 shadow-md" data-category="ai">
-                        <img src="https://placehold.co/150x60/cccccc/333333?text=AI" alt="AI">
-                    </div>
-                    <div class="portfolio-item p-4 bg-white rounded-lg flex items-center justify-center h-24 shadow-md" data-category="healthcare">
-                        <img src="https://placehold.co/150x60/cccccc/333333?text=Care" alt="Care">
-                    </div>
-                </div>                    <div class="portfolio-item p-4 bg-white rounded-lg flex items-center justify-center h-24 shadow-md" data-category="fintech">
-                        <img src="https://placehold.co/150x60/cccccc/333333?text=STO/RWA" alt="STO/RWA">
-            </div>
-        </section>
-
-        <section id="news" class="py-20 bg-white">
-            <div class="container mx-auto px-6">
-                <h2 class="section-title text-3xl font-bold text-gray-800 mb-16 text-center">뉴스 & 인사이트</h2>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://placehold.co/600x400/A0AEC0/FFFFFF?text=Insight" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <span class="text-sm text-gray-500">Market Insights</span>
-                            <h3 class="font-bold text-lg my-2">격변기 벤처 투자 시장의 기회</h3>
-                            <p class="text-gray-600 text-sm mb-4">김경배 CEO가 말하는 현재 시장의 위기와 기회...</p>
-                            <a href="#" class="text-blue-600 font-semibold">더 읽기 &rarr;</a>
+                    <div class="border-b border-gray-200 pb-6">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4 section-heading">
+                            <i class="fas fa-won-sign"></i> 임금
+                        </h3>
+                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="input-group">
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="salaryType">임금 형태*</label>
+                                <select id="salaryType" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2">
+                                    <option value="월급">월급</option>
+                                    <option value="연봉">연봉</option>
+                                    <option value="시급">시급</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="salaryAmount">임금액 (세전)*</label>
+                                <input type="number" id="salaryAmount" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 3000000">
+                            </div>
                         </div>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://placehold.co/600x400/718096/FFFFFF?text=News" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <span class="text-sm text-gray-500">STU News</span>
-                            <h3 class="font-bold text-lg my-2">STU, 헬스케어 스타트업 'MediTech'에 투자</h3>
-                            <p class="text-gray-600 text-sm mb-4">STU가 혁신적인 디지털 헬스케어 기업인 MediTech에...</p>
-                            <a href="#" class="text-blue-600 font-semibold">더 읽기 &rarr;</a>
+                        <div class="input-group">
+                            <label class="block text-sm font-medium text-gray-700 mb-1" for="salaryComponents">임금 구성항목</label>
+                            <textarea id="salaryComponents" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 기본급: 2,500,000원, 직책수당: 200,000원, 식대보조비: 100,000원, 주휴수당 별도 명시 또는 포함 여부 등"></textarea>
                         </div>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://placehold.co/600x400/4A5568/FFFFFF?text=Global" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <span class="text-sm text-gray-500">Global Trend</span>
-                            <h3 class="font-bold text-lg my-2">아시아 시장 진출을 위한 성공 방정식</h3>
-                            <p class="text-gray-600 text-sm mb-4">John Lee 이사가 분석하는 아시아 시장의 최신 트렌드...</p>
-                            <a href="#" class="text-blue-600 font-semibold">더 읽기 &rarr;</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact" class="py-20">
-            <div class="container mx-auto px-6">
-                <h2 class="section-title text-3xl font-bold text-gray-800 mb-16 text-center">연락처</h2>
-                <div class="max-w-4xl mx-auto bg-white p-8 md:p-12 rounded-lg shadow-lg grid md:grid-cols-2 gap-12">
-                    <div>
-                        <h3 class="text-2xl font-bold mb-4">투자 제안 (Pitch Us)</h3>
-                        <p class="text-gray-600 mb-6">혁신적인 아이디어와 세상을 바꿀 열정을 가진 창업가들을 기다립니다. 아래 이메일로 사업계획서를 보내주세요.</p>
-                        <a href="mailto:pitch@stu-invest.com" class="font-semibold text-blue-600">dongh.seok@gmail.com</a>
-                        
-                        <h3 class="text-2xl font-bold mt-10 mb-4">일반 문의</h3>
-                        <p class="text-gray-600 mb-2">서울특별시 강남구 테헤란로 431, #4003, Justco타워</p>
-                        <p class="text-gray-600">Tel: 010-8234-5955</p>
-                    </div>
-                    <form>
-                        <div class="mb-4">
-                            <label for="name" class="block text-gray-700 font-bold mb-2">이름</label>
-                            <input type="text" id="name" name="name" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div class="mb-4">
-                            <label for="email" class="block text-gray-700 font-bold mb-2">이메일</p>
-                            <input type="email" id="email" name="email" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div class="mb-4">
-                            <label for="message" class="block text-gray-700 font-bold mb-2">메시지</label>
-                            <textarea id="message" name="message" rows="4" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">메시지 보내기</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="container mx-auto px-6 text-center">
-            <p>&copy; 2024 STU Investment Partners LLC. All Rights Reserved.</p>
-        </div>
-    </footer>
-    
-    <div id="modal-container" class="hidden"></div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-            
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    if(this.getAttribute('href') !== '#') {
-                         document.querySelector(this.getAttribute('href')).scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    }
-                    if(mobileMenu.classList.contains('hidden') === false) {
-                        mobileMenu.classList.add('hidden');
-                    }
-                });
-            });
-
-            const header = document.getElementById('header');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    header.classList.add('py-2');
-                    header.classList.remove('py-3');
-                } else {
-                    header.classList.add('py-3');
-                    header.classList.remove('py-2');
-                }
-            });
-
-            const portfolioBtns = document.querySelectorAll('.portfolio-btn');
-            const portfolioItems = document.querySelectorAll('.portfolio-item');
-
-            portfolioBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    portfolioBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-
-                    const filter = btn.getAttribute('data-filter');
-
-                    portfolioItems.forEach(item => {
-                        item.style.transform = 'scale(0)';
-                        item.style.opacity = '0';
-                        setTimeout(() => {
-                           if (filter === 'all' || item.getAttribute('data-category') === filter) {
-                                item.classList.remove('hidden');
-                                setTimeout(() => {
-                                    item.style.transform = 'scale(1)';
-                                    item.style.opacity = '1';
-                                }, 50);
-                            } else {
-                                item.classList.add('hidden');
-                            }
-                        }, 300);
-                    });
-                });
-            });
-            
-            const tabBtns = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
-            
-            tabBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    tabBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    
-                    const tabId = btn.getAttribute('data-tab');
-                    
-                    tabContents.forEach(content => {
-                        if(content.id === `${tabId}-content`) {
-                            content.classList.remove('hidden');
-                        } else {
-                            content.classList.add('hidden');
-                        }
-                    });
-                });
-            });
-
-        });
-
-        const teamData = {
-            'kb-kim': {
-                name: '김경배 (Kyung-Bae Kim)',
-                title: 'CEO & Managing Partner',
-                image: 'https://placehold.co/400x400/E2E8F0/4A5568?text=K.B.Kim',
-                description: "30년 이상의 벤처투자 경력을 보유한 베테랑으로, PWC, SL인베스트먼트를 거쳐 포이보스창업투자회사 CEO를 역임하며 수많은 유망 기업을 발굴하고 성공적인 투자 회수를 이끌었습니다. 시장의 흐름을 읽는 날카로운 통찰력과 기업의 본질을 꿰뚫는 안목으로 STU의 투자를 총괄합니다.",
-                career: ['PWC 컨설팅 (경영 컨설턴트)', 'SL인베스트먼트 (파트너, 수석 팀장)', '포이보스창업투자회사 (대표이사/CEO)'],
-                expertise: ['ICT', '플랫폼', '소비재', 'M&A', 'IPO 전략'],
-                message: "위대한 기업은 위대한 기업가로부터 시작됩니다. STU는 기업가의 꿈을 현실로 만드는 여정에 가장 신뢰할 수 있는 파트너가 될 것입니다."
-            },
-            'si-jung': {
-                name: '정성익 (Sung-Ik Jung)',
-                title: 'CIO & Partner',
-                image: 'https://placehold.co/400x400/E2E8F0/4A5568?text=S.I.Jung',
-                description: "한국산업은행에서 30년간 재직하며 기업금융, 투자 심사, 리스크 관리 등 금융 전반에 걸쳐 깊이 있는 경험과 전문성을 쌓았습니다. 거시 경제 분석과 산업 동향 예측을 바탕으로 안정적이면서도 성장 잠재력이 높은 투자 포트폴리오를 구축하는 데 핵심적인 역할을 수행합니다.",
-                career: ['한국산업은행 (기업금융 부문 팀장, 투자 심사역, 리스크 관리 총괄 등)'],
-                expertise: ['기업금융', '투자 분석', '리스크 관리', '금융 구조화', '산업 정책 분석'],
-                message: "철저한 분석과 데이터 기반의 의사결정은 성공적인 투자의 기본입니다. 기업의 지속 가능한 성장을 위한 최적의 금융 솔루션을 제공하겠습니다."
-            },
-            'dh-seok': {
-                name: '석동호 (Dong-Ho Seok)',
-                title: '전무, 투자본부장',
-                image: 'https://placehold.co/400x400/E2E8F0/4A5568?text=D.H.Seok',
-                description: "액셀러레이터로서 다수의 초기 기업을 성공적으로 육성하고, 직접 헬스케어 기업을 창업하여 운영한 경험을 통해 산업 현장에 대한 깊은 이해를 갖추고 있습니다. 벤처캐피탈에서의 투자 경력을 더해, 기술 기반 기업의 성장 전략 수립과 실행에 탁월한 역량을 발휘합니다.",
-                career: ['[특정 액셀러레이터 명칭] (파트너, 프로그램 총괄)', '[창업한 헬스케어 회사 명칭] (대표이사/CEO)', '[벤처캐피탈 명칭] (투자 심사역)'],
-                expertise: ['초기 기업 투자 및 육성', '헬스케어', '바이오', '기술 사업화', '사업 개발 전략'],
-                message: "창업가의 열정과 혁신적인 아이디어가 세상을 바꿀 수 있다고 믿습니다. 그 여정에 필요한 실질적인 지원과 통찰력을 제공하겠습니다."
-            },
-            'j-lee': {
-                name: 'John Lee',
-                title: '이사, 글로벌 투자/파이낸싱',
-                image: 'https://placehold.co/400x400/E2E8F0/4A5568?text=J.Lee',
-                description: "미국, 한국, 카타르 등 다양한 국가에서 글로벌 투자 및 파이낸싱 업무를 수행하며 폭넓은 국제 금융 네트워크와 경험을 축적했습니다. STU의 글로벌 투자 전략을 수립하고, 포트폴리오 기업의 해외 시장 진출 및 글로벌 자금 조달을 적극 지원합니다.",
-                career: ['[미국 투자은행 명칭] (IB Division)', '[카타르 국부펀드 또는 투자기관 명칭] (Investment Manager)', '[한국 사모펀드 또는 투자사 명칭] (Cross-border Investment Team)'],
-                expertise: ['글로벌 파이낸싱', '해외 직접 투자', '크로스보더 M&A', '국제 자본 시장', '펀드 조성'],
-                message: "국경을 넘어선 기회를 포착하고, 한국의 혁신 기업들이 세계 무대에서 당당히 경쟁할 수 있도록 최선을 다해 지원하겠습니다."
-            }
-        };
-
-        function openModal(teamMemberId) {
-            const data = teamData[teamMemberId];
-            if (!data) return;
-
-            const modalHTML = `
-                <div id="modal-overlay" class="modal-overlay fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 opacity-0" onclick="closeModal()">
-                    <div id="modal-content" class="modal-content bg-white rounded-lg shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto transform scale-95" onclick="event.stopPropagation()">
-                        <div class="p-6 md:p-8 relative">
-                            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">&times;</button>
-                            <div class="grid md:grid-cols-3 gap-8">
-                                <div class="md:col-span-1">
-                                    <img src="${data.image}" alt="${data.name}" class="rounded-lg w-full mb-4">
-                                    <h2 class="text-2xl font-bold">${data.name}</h2>
-                                    <p class="text-blue-600 font-semibold">${data.title}</p>
-                                </div>
-                                <div class="md:col-span-2">
-                                    <p class="text-gray-700 mb-6">${data.description}</p>
-                                    <div class="mb-6">
-                                        <h4 class="font-bold text-lg mb-2 border-b pb-1">주요 경력</h4>
-                                        <ul class="list-disc list-inside text-gray-600 space-y-1">
-                                            ${data.career.map(c => `<li>${c}</li>`).join('')}
-                                        </ul>
-                                    </div>
-                                    <div class="mb-6">
-                                        <h4 class="font-bold text-lg mb-2 border-b pb-1">전문 분야</h4>
-                                        <div class="flex flex-wrap gap-2">
-                                           ${data.expertise.map(e => `<span class="bg-gray-200 text-gray-700 text-sm font-medium px-3 py-1 rounded-full">${e}</span>`).join('')}
-                                        </div>
-                                    </div>
-                                    <div class="bg-gray-100 p-4 rounded-lg">
-                                        <p class="text-gray-800 font-semibold italic">"${data.message}"</p>
-                                    </div>
-                                </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="input-group">
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="salaryPaymentDate">임금 지급일*</label>
+                                <input type="text" id="salaryPaymentDate" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 매월 25일">
+                            </div>
+                            <div class="input-group">
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="salaryPaymentMethod">임금 지급방법*</label>
+                                <input type="text" id="salaryPaymentMethod" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 근로자 명의의 예금계좌로 입금 (OO은행 123-456-789012)">
                             </div>
                         </div>
                     </div>
+
+                    <div class="border-b border-gray-200 pb-6">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4 section-heading">
+                            <i class="fas fa-umbrella-beach"></i> 연차유급휴가 및 사회보험
+                        </h3>
+                        <div class="input-group">
+                            <label class="block text-sm font-medium text-gray-700 mb-1" for="annualLeave">연차유급휴가*</label>
+                            <textarea id="annualLeave" rows="2" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 근로기준법에서 정하는 바에 따름"></textarea>
+                        </div>
+                         <div class="input-group">
+                            <label class="block text-sm font-medium text-gray-700 mb-1" for="socialInsurance">사회보험 적용*</label>
+                            <textarea id="socialInsurance" rows="2" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 국민연금, 건강보험, 고용보험, 산재보험 가입"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="pb-6">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4 section-heading">
+                            <i class="fas fa-ellipsis-h"></i> 기타 근로조건
+                        </h3>
+                        <div class="input-group">
+                            <label class="block text-sm font-medium text-gray-700 mb-1" for="otherConditions">기타사항</label>
+                            <textarea id="otherConditions" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2" placeholder="예: 수습기간(해당 시 명시, 예: 3개월, 수습기간 중 급여는 정규 급여의 90% 지급), 근로계약서에서 정하지 아니한 사항은 근로기준법 및 관계 법령에 따름."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col space-y-3">
+                        <button type="submit" class="w-full bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 transition duration-300 font-semibold">
+                            <i class="fas fa-magic mr-2"></i>
+                            근로계약서 생성하기
+                        </button>
+                        <button type="button" id="saveFileButton" class="w-full bg-blue-500 text-white py-3 px-6 rounded-md hover:bg-blue-600 transition duration-300 font-semibold">
+                            <i class="fas fa-download mr-2"></i>
+                            데이터 파일로 저장
+                        </button>
+                        <label for="loadFile" class="w-full bg-gray-500 text-white py-3 px-6 rounded-md hover:bg-gray-600 transition duration-300 font-semibold text-center cursor-pointer">
+                            <i class="fas fa-upload mr-2"></i>
+                            데이터 파일 불러오기
+                            <input type="file" id="loadFile" accept=".json" class="hidden">
+                        </label>
+                        <button type="button" id="clearFormButton" class="w-full bg-gray-300 text-gray-800 py-3 px-6 rounded-md hover:bg-gray-400 transition duration-300 font-semibold">
+                            <i class="fas fa-trash-alt mr-2"></i>
+                            양식 초기화
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <div class="flex items-center justify-between mb-6 no-print">
+                    <h2 class="text-2xl font-bold text-gray-800">
+                        <i class="fas fa-file-alt text-green-600 mr-2"></i>
+                        생성된 근로계약서
+                    </h2>
+                    <button onclick="window.print()" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition duration-300">
+                        <i class="fas fa-print mr-2"></i>
+                        PDF 저장
+                    </button>
                 </div>
-            `;
-
-            document.getElementById('modal-container').innerHTML = modalHTML;
-            document.getElementById('modal-container').classList.remove('hidden');
-
-            setTimeout(() => {
-                document.getElementById('modal-overlay').classList.remove('opacity-0');
-                document.getElementById('modal-content').classList.remove('scale-95');
-            }, 10);
+                <div id="documentPreview" class="document-output">
+                    <div class="text-center text-gray-500 py-12">
+                        <i class="fas fa-clipboard-list text-6xl mb-4"></i>
+                        <p class="text-lg">좌측 양식을 작성하고 "근로계약서 생성하기" 버튼을 클릭하세요</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const formId = 'documentForm'; 
+        const localStorageKeyPrefix = 'form_generator_'; 
+        function saveFormDataToLocalStorage() {
+            const formData = {};
+            const formElements = document.querySelectorAll(`#${formId} input, #${formId} textarea, #${formId} select`);
+            formElements.forEach(element => {
+                if (element.id) { 
+                    formData[element.id] = element.value;
+                }
+            });
+            localStorage.setItem(localStorageKeyPrefix + formId, JSON.stringify(formData));
         }
-
-        function closeModal() {
-            const modalOverlay = document.getElementById('modal-overlay');
-            const modalContent = document.getElementById('modal-content');
-            if(modalOverlay && modalContent) {
-                modalOverlay.classList.add('opacity-0');
-                modalContent.classList.add('scale-95');
-
-                setTimeout(() => {
-                    document.getElementById('modal-container').classList.add('hidden');
-                    document.getElementById('modal-container').innerHTML = '';
-                }, 300);
+        function loadFormDataFromLocalStorage() {
+            const savedData = localStorage.getItem(localStorageKeyPrefix + formId);
+            if (savedData) {
+                const formData = JSON.parse(savedData);
+                for (const id in formData) {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        if (element.type === 'date') {
+                            if (formData[id]) {
+                                element.valueAsDate = new Date(formData[id]);
+                            }
+                        } else {
+                            element.value = formData[id];
+                        }
+                    }
+                }
+                generateDocument();
+            } else {
+                const contractDateElement = document.getElementById('contractDate');
+                 if (contractDateElement && !contractDateElement.value) {
+                    const today = new Date();
+                    contractDateElement.value = today.toISOString().slice(0,10);
+                }
+                const contractStartDateElement = document.getElementById('contractStartDate');
+                 if (contractStartDateElement && !contractStartDateElement.value) {
+                    const today = new Date();
+                    contractStartDateElement.value = today.toISOString().slice(0,10);
+                }
+                // 기본 플레이스홀더 값 설정 (예시)
+                const defaultPlaceholders = {
+                    'documentTitle': '표준 근로계약서',
+                    'workStartTime': '09:00',
+                    'workEndTime': '18:00',
+                    'breakTime': '12:00 ~ 13:00 (1시간)',
+                    'workDays': '매주 월요일부터 금요일까지 (주 5일)',
+                    'weeklyHoliday': '매주 일요일',
+                    'annualLeave': '근로기준법에서 정하는 바에 따름',
+                    'socialInsurance': '국민연금, 건강보험, 고용보험, 산재보험 가입'
+                };
+                for (const id in defaultPlaceholders) {
+                    const element = document.getElementById(id);
+                    if (element && !element.value) { // 이미 값이 없는 경우에만 설정
+                        element.value = defaultPlaceholders[id];
+                    }
+                }
+                generateDocument();
             }
         }
+        function clearForm() {
+            const formElements = document.querySelectorAll(`#${formId} input, #${formId} textarea, #${formId} select`);
+            formElements.forEach(element => {
+                if (element.type === 'date') {
+                    element.value = ''; 
+                } else if (element.tagName === 'SELECT') {
+                    element.selectedIndex = 0; // select 박스는 첫 번째 옵션으로
+                } else {
+                    element.value = ''; 
+                }
+            });
+            localStorage.removeItem(localStorageKeyPrefix + formId); 
+            loadFormDataFromLocalStorage(); // 기본값으로 다시 로드
+        }
+        function downloadDataFile() {
+            const formData = {};
+            const formElements = document.querySelectorAll(`#${formId} input, #${formId} textarea, #${formId} select`);
+            formElements.forEach(element => {
+                if (element.id) {
+                    formData[element.id] = element.value;
+                }
+            });
+            const dataStr = JSON.stringify(formData, null, 2); 
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const formTitle = (document.getElementById('documentTitle').value || '근로계약서').replace(/[^a-zA-Z0-9가-힣_]/g, '_');
+            a.download = `${formTitle}_데이터_${new Date().toISOString().slice(0,10)}.json`; 
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        function uploadDataFile(event) {
+            const file = event.target.files[0];
+            if (!file) {
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const loadedData = JSON.parse(e.target.result);
+                    for (const id in loadedData) {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            if (element.type === 'date') {
+                                if (loadedData[id]) {
+                                    element.valueAsDate = new Date(loadedData[id]);
+                                }
+                            } else {
+                                element.value = loadedData[id];
+                            }
+                        }
+                    }
+                    saveFormDataToLocalStorage(); 
+                    generateDocument(); 
+                    alert('데이터를 성공적으로 불러왔습니다!');
+                } catch (error) {
+                    alert('파일을 읽는 중 오류가 발생했거나 유효한 JSON 파일이 아닙니다: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        function nl2p(str) {
+            if (!str) return '';
+            return str.split('\n').map(s => `<p class="text-gray-700 leading-relaxed mb-1">${s || '&nbsp;'}</p>`).join('');
+        }
+        
+        function formatCurrency(numStr) {
+            if (!numStr) return '0';
+            const num = parseInt(numStr, 10);
+            if (isNaN(num)) return numStr; // 숫자가 아니면 원래 문자열 반환
+            return num.toLocaleString('ko-KR');
+        }
+
+        function generateDocument() {
+            const getValue = id => document.getElementById(id).value || (document.getElementById(id).placeholder || '');
+            const getDateValue = id => {
+                const val = document.getElementById(id).value;
+                return val ? new Date(val).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }) : '미기재';
+            };
+            const getTimeValue = id => {
+                 const val = document.getElementById(id).value;
+                 if (!val) return '미기재';
+                 const [hours, minutes] = val.split(':');
+                 return `${parseInt(hours, 10)}시 ${parseInt(minutes, 10)}분`;
+            };
+
+            const documentTitle = getValue('documentTitle');
+            const contractDate = getDateValue('contractDate');
+            
+            const employerCompanyName = getValue('employerCompanyName');
+            const employerRepresentativeName = getValue('employerRepresentativeName');
+            const employerBusinessNumber = getValue('employerBusinessNumber');
+            const employerCompanyAddress = getValue('employerCompanyAddress');
+            const employerCompanyContact = getValue('employerCompanyContact');
+
+            const employeeName = getValue('employeeName');
+            const employeeBirthDate = getDateValue('employeeBirthDate');
+            const employeeContact = getValue('employeeContact');
+            const employeeAddress = getValue('employeeAddress');
+
+            const contractType = getValue('contractType');
+            const contractStartDate = getDateValue('contractStartDate');
+            const contractEndDateInput = document.getElementById('contractEndDate').value;
+            const contractEndDate = contractType === '기간제 근로계약' && contractEndDateInput ? getDateValue('contractEndDate') : '기간의 정함이 없음';
+            
+            const workplace = getValue('workplace');
+            const jobDescription = getValue('jobDescription');
+
+            const workStartTime = getTimeValue('workStartTime');
+            const workEndTime = getTimeValue('workEndTime');
+            const breakTime = getValue('breakTime');
+            const workDays = getValue('workDays');
+            const weeklyHoliday = getValue('weeklyHoliday');
+
+            const salaryType = getValue('salaryType');
+            const salaryAmount = formatCurrency(getValue('salaryAmount'));
+            const salaryComponents = getValue('salaryComponents');
+            const salaryPaymentDate = getValue('salaryPaymentDate');
+            const salaryPaymentMethod = getValue('salaryPaymentMethod');
+
+            const annualLeave = getValue('annualLeave');
+            const socialInsurance = getValue('socialInsurance');
+            const otherConditions = getValue('otherConditions');
+
+            const root = document.documentElement;
+            let themeColor = '#1D4ED8'; // 차분한 파란색 (신뢰)
+            let themeColorLight = '#DBEAFE';
+            let themeColorStart = '#3B82F6';
+            let themeColorEnd = '#1D4ED8';
+            let headerBgImage = "url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YnVzaW5lc3MlMjBoYW5kc2hha2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60')"; // 악수 또는 계약 관련 이미지
+            let headerBgPosition = 'center 20%';
+            let headerBgSize = 'cover';
+            let headerBgOpacity = 0.08;
+            let headerMixBlendMode = 'luminosity';
+
+            root.style.setProperty('--accent-color', themeColor);
+            root.style.setProperty('--accent-color-light', themeColorLight);
+            root.style.setProperty('--accent-color-start', themeColorStart);
+            root.style.setProperty('--accent-color-end', themeColorEnd);
+            root.style.setProperty('--header-bg-image', headerBgImage);
+            root.style.setProperty('--header-bg-position', headerBgPosition);
+            root.style.setProperty('--header-bg-size', headerBgSize);
+            root.style.setProperty('--header-bg-opacity', headerBgOpacity);
+            root.style.setProperty('--header-mix-blend-mode', headerMixBlendMode);
+
+            let generatedHtml = `
+                <div class="fade-in">
+                    <div class="gradient-header-bg text-center mb-8">
+                        <h1 class="text-3xl md:text-4xl font-bold mb-2">${documentTitle}</h1>
+                    </div>
+
+                    <div class="material-section">
+                        <h2 class="section-heading text-xl"><i class="fas fa-users"></i>제1조 (근로계약 당사자)</h2>
+                        <table class="preview-table">
+                            <tr>
+                                <th style="width:15%;">구분</th>
+                                <th style="width:42.5%;">사업주 (갑)</th>
+                                <th style="width:42.5%;">근로자 (을)</th>
+                            </tr>
+                            <tr>
+                                <td><strong>회사명</strong></td>
+                                <td>${employerCompanyName}</td>
+                                <td rowspan="2"><strong>성명</strong><br>${employeeName}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>대표자</strong></td>
+                                <td>${employerRepresentativeName}</td>
+                            </tr>
+                             <tr>
+                                <td><strong>사업자번호</strong></td>
+                                <td>${employerBusinessNumber || '해당 없음'}</td>
+                                <td><strong>생년월일</strong><br>${employeeBirthDate}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>소재지</strong></td>
+                                <td>${employerCompanyAddress}</td>
+                                <td><strong>주소</strong><br>${employeeAddress}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>연락처</strong></td>
+                                <td>${employerCompanyContact || '미기재'}</td>
+                                <td><strong>연락처</strong><br>${employeeContact}</td>
+                            </tr>
+                        </table>
+                        <p class="text-sm text-gray-600 mt-2">위 사업주(이하 "갑"이라 함)와 근로자(이하 "을"이라 함)는 다음과 같이 근로계약을 체결하고 이를 성실히 이행할 것을 약정한다.</p>
+                    </div>
+
+                    <div class="material-section">
+                        <h2 class="section-heading text-xl"><i class="fas fa-calendar-alt"></i>제2조 (근로계약기간)</h2>
+                        <p>1. 계약 구분: ${contractType}</p>
+                        <p>2. 근로계약 시작일: ${contractStartDate}</p>
+                        <p>3. 근로계약 종료일: ${contractEndDate}</p>
+                        ${contractType === '기간제 근로계약' ? '<p class="text-sm text-gray-500 mt-1">(기간제 근로자의 경우 계약기간 만료로 근로관계는 자동 종료됨)</p>' : ''}
+                    </div>
+
+                    <div class="material-section">
+                        <h2 class="section-heading text-xl"><i class="fas fa-map-marker-alt"></i>제3조 (근무 장소)</h2>
+                        <p>${nl2p(workplace)}</p>
+                    </div>
+
+                    <div class="material-section">
+                        <h2 class="section-heading text-xl"><i class="fas fa-briefcase"></i>제4조 (업무의 내용)</h2>
+                        <p>${nl2p(jobDescription)}</p>
+                    </div>
+
+                    <div class="material-section">
+                        <h2 class="section-heading text-xl"><i class="fas fa-clock"></i>제5조 (소정근로시간 및 휴게)</h2>
+                        <p>1. 소정근로시간: ${workStartTime}부터 ${workEndTime}까지 (1일 ${ (new Date(`1970-01-01T${document.getElementById('workEndTime').value}:00Z`).getTime() - new Date(`1970-01-01T${document.getElementById('workStartTime').value}:00Z`).getTime()) / (1000 * 60 * 60) - (breakTime.includes("1시간")?1:(breakTime.includes("30분")?0.5:0)) }시간)</p>
+                        <p>2. 휴게시간: ${breakTime}</p>
+                    </div>
+                    
+                    <div class="material-section">
+                        <h2 class="section-heading text-xl"><i class="fas fa-calendar-day"></i>제6조 (근무일 및 휴일)</h2>
+                        <p>1. 근무일: ${workDays}</p>
+                        <p>2. 주휴일: ${weeklyHoliday}</p>
+                        <p class="text-sm text-gray-500 mt-1">(회사의 사정에 따라 근무일 및 주휴일은 변경될 수 있으며, 이 경우 사전에 통보한다.)</p>
+                    </div>
+
+                    <div class="material-section">
+                        <h2 class="section-heading text-xl"><i class="fas fa-won-sign"></i>제7조 (임금)</h2>
+                        <p>1. 임금형태: ${salaryType}</p>
+                        <p>2. 임금액: ${salaryType === '시급' ? `시급 ${salaryAmount}원` : `${salaryType} ${salaryAmount}원`} (세전)</p>
+                        <p>3. 임금 구성항목: ${nl2p(salaryComponents) || '기본급 및 제수당 포함. 상세내역은 급여명세서에 의함.'}</p>
+                        <p>4. 임금 지급일: ${salaryPaymentDate} (단, 지급일이 공휴일인 경우 그 전일에 지급)</p>
+                        <p>5. 임금 지급방법: ${salaryPaymentMethod}</p>
+                        <p class="text-sm text-gray-500 mt-1">(회사는 "을"의 동의 없이 임금에서 공제할 수 있는 것은 관계법령에서 정한 것에 한한다.)</p>
+                    </div>
+
+                    <div class="material-section">
+                        <h2 class="section-heading text-xl"><i class="fas fa-umbrella-beach"></i>제8조 (연차유급휴가)</h2>
+                        <p>${nl2p(annualLeave)}</p>
+                    </div>
+
+                    <div class="material-section">
+                        <h2 class="section-heading text-xl"><i class="fas fa-shield-alt"></i>제9조 (사회보험 및 복리후생)</h2>
+                         <p>1. 사회보험: ${nl2p(socialInsurance)}</p>
+                         <p>2. 기타 복리후생은 회사의 취업규칙 및 관련 규정에 따른다.</p>
+                    </div>
+                    
+                    <div class="material-section">
+                        <h2 class="section-heading text-xl"><i class="fas fa-file-contract"></i>제10조 (근로계약서 교부)</h2>
+                        <p>"갑"은 근로계약을 체결함과 동시에 본 계약서를 사본하여 "을"의 교부 요구와 관계없이 "을"에게 교부한다. (근로기준법 제17조)</p>
+                    </div>
+
+                    <div class="material-section">
+                        <h2 class="section-heading text-xl"><i class="fas fa-gavel"></i>제11조 (기타)</h2>
+                        <p>이 계약에 정함이 없는 사항은 근로기준법, 산업안전보건법 등 노동관계법령, 단체협약, 취업규칙 및 회사의 관련 규정이 정하는 바에 따른다.</p>
+                        ${otherConditions ? `<div class="mt-2 accent-border p-3 bg-gray-50 rounded">${nl2p(otherConditions)}</div>` : ''}
+                    </div>
+
+                    <div class="material-section text-center mt-8 pt-4">
+                        <p class="mb-6">본 계약을 증명하기 위하여 계약서 2부를 작성하여 "갑"과 "을"이 각각 1부씩 보관한다.</p>
+                        <p class="mb-12 text-lg"><strong>계약 체결일:</strong> ${contractDate}</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t">
+                            <div>
+                                <p class="font-semibold text-lg mb-2">(갑) 사업주</p>
+                                <p>회사명: ${employerCompanyName}</p>
+                                <p>대표자: ${employerRepresentativeName} (서명/인)</p>
+                                <div style="height: 50px; border-bottom: 1px solid #ccc; margin-top: 20px; margin-left: auto; margin-right: auto; max-width: 200px;"></div>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-lg mb-2">(을) 근로자</p>
+                                <p>성명: ${employeeName} (서명/인)</p>
+                                <div style="height: 50px; border-bottom: 1px solid #ccc; margin-top: 20px; margin-left: auto; margin-right: auto; max-width: 200px;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center text-gray-500 text-sm mt-8 pt-4 border-t border-gray-300 print-only">
+                        <p>본 문서는 ${new Date().toLocaleDateString('ko-KR')}에 생성되었습니다.</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('documentPreview').innerHTML = generatedHtml;
+            
+            if (window.innerWidth < 1024 && document.activeElement.form) { // 입력 중일 때만 스크롤
+                document.getElementById('documentPreview').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+        function setupInputPlaceholders() {
+            const inputs = document.querySelectorAll('#documentForm input[placeholder], #documentForm textarea[placeholder]');
+            inputs.forEach(input => {
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Tab' && input.value.trim() === '' && input.placeholder) {
+                        e.preventDefault(); 
+                        input.value = input.placeholder;
+                        saveFormDataToLocalStorage(); 
+                        generateDocument(); 
+                    }
+                });
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            setupInputPlaceholders(); 
+            loadFormDataFromLocalStorage(); 
+            const formElements = document.querySelectorAll(`#${formId} input, #${formId} textarea, #${formId} select`);
+            formElements.forEach(element => {
+                element.addEventListener('input', () => {
+                    saveFormDataToLocalStorage();
+                    generateDocument(); 
+                });
+                element.addEventListener('change', () => { 
+                    saveFormDataToLocalStorage();
+                    generateDocument(); 
+                });
+            });
+            document.getElementById('saveFileButton').addEventListener('click', downloadDataFile);
+            document.getElementById('loadFile').addEventListener('change', uploadDataFile);
+            document.getElementById('clearFormButton').addEventListener('click', clearForm); 
+            document.getElementById('documentForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                generateDocument();
+            });
+        });
     </script>
 </body>
 </html>
